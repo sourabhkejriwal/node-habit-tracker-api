@@ -14,6 +14,13 @@ A habit tracking API built with Node.js, Express, PostgreSQL, and Drizzle ORM.
 - **Password Hashing**: bcrypt
 - **Testing**: Jest & Supertest
 - **Security**: Helmet & CORS
+- **CI/CD**: github actions //todo fixes
+- **Deployment**: render.com via Docker
+
+## Deployed API endpoint
+
+- https://node-habit-tracker-api.onrender.com/health
+  (free account, might break in future)
 
 ## API Endpoints
 
@@ -118,6 +125,46 @@ JWT_SECRET=your-secret-key-here
 NODE_ENV=development
 PORT=3000
 ```
+
+## Running with Docker
+
+### Build the image
+
+```bash
+docker build -t habit-tracker:latest .
+```
+
+### Run the container
+
+Create `.env.docker` with your database details:
+
+```bash
+NODE_ENV=development
+DATABASE_URL=postgresql://neondb_owner:YOUR_PASSWORD@YOUR_NEON_HOST/neondb?sslmode=require
+JWT_SECRET=your-secret-at-least-32-chars
+BCRYPT_ROUNDS=12
+LOG_LEVEL=debug
+```
+
+Run:
+
+```bash
+docker run -p 3000:3000 --env-file .env.docker habit-tracker:latest
+```
+
+Visit: `http://localhost:3000`
+
+### Stop the container
+
+```bash
+# Find the container ID
+docker ps
+
+# Stop it
+docker stop <CONTAINER_ID>
+```
+
+---
 
 ## Testing
 
