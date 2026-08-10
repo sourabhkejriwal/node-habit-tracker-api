@@ -1,27 +1,26 @@
 import { env as loadEnv } from 'custom-env'
 import { z } from 'zod'
 
-process.env.APP_STAGE = process.env.APP_STAGE || 'dev'
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
-const isProduction = process.env.APP_STAGE === 'production'
-const isDevelopment = process.env.APP_STAGE === 'dev'
-const isTest = process.env.APP_STAGE === 'test'
+const isProduction = process.env.NODE_ENV === 'production'
+const isDevelopment = process.env.NODE_ENV !== 'production'
+const isTest = process.env.NODE_ENV === 'test'
 
 // Load .env file
-if (isDevelopment) {
-  loadEnv()
-} else if (isTest) {
-  loadEnv('test')
+if (!isProduction) {
+  if (isTest) {
+    loadEnv('test')
+  } else {
+    loadEnv() // loads .env by default
+  }
 }
-
 // Define the schema with environment-specific requirements
 const envSchema = z.object({
   // Node environment
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),
-
-  APP_STAGE: z.enum(['dev', 'production', 'test']).default('dev'),
 
   // Server
   PORT: z.coerce.number().positive().default(3000),

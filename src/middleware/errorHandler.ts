@@ -10,7 +10,7 @@ export const errorHandler = (
   err: CustomError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   console.error(err.stack)
 
@@ -43,7 +43,7 @@ export const errorHandler = (
 
   res.status(status).json({
     error: message,
-    ...(env.APP_STAGE === 'dev' && {
+    ...(env.NODE_ENV === 'development' && {
       stack: err.stack,
       details: err.message,
     }),
