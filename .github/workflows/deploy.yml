@@ -30,9 +30,18 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+
+        # Create .env.test so drizzle-kit can find it
+      - name: Create .env.test
+        run: |
+          cat > .env.test << EOF
+          NODE_ENV=test
+          DATABASE_URL=${{ env.DATABASE_URL }}
+          JWT_SECRET=${{ env.JWT_SECRET }}
+          EOF
+
       - run: npm run db:migrate
       - run: npm test
-
   deploy:
     needs: test
     runs-on: ubuntu-latest
