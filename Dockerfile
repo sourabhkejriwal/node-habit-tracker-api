@@ -15,6 +15,6 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup \
   && chown -R appuser:appgroup /app
 USER appuser
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
+HEALTHCHECK --interval=3600s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "src/index.ts"]
