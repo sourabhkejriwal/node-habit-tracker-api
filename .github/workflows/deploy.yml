@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
-      DATABASE_URL: postgresql://neondb_owner:npg_O5j0brQALcSY@ep-bold-mud-ax2duolm-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
       JWT_SECRET: ${{ secrets.TEST_JWT_SECRET }}
     services:
       postgres:
