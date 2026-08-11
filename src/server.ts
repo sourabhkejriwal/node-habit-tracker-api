@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: env.CORS_ORIGIN,
     credentials: true,
-  })
+  }),
 )
 
 app.use(express.json())
@@ -22,12 +22,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(
   morgan('dev', {
     skip: () => isTestEnv(),
-  })
+  }),
 )
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
-    status: 'OK',
+    status: 'OK 200',
     timestamp: new Date().toISOString(),
     service: 'Habit Tracker API',
   })
@@ -52,14 +52,14 @@ app.use(
     err: Error,
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    next: express.NextFunction,
   ) => {
     console.error(err.stack)
     res.status(500).json({
       error: 'Something went wrong!',
       ...(isDev() && { details: err.message }),
     })
-  }
+  },
 )
 
 export { app }
